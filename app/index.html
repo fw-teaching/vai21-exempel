@@ -15,7 +15,8 @@
 
     <!-- "defer"-attributet betyder att skriptet ska vänta på att sidan laddats helt och hållet innan det körs. 
         Samma idé som att sätt scripten sist, det är smaksak hur man vill göra -->
-    <script src="script.js" defer></script>
+    <script src="script-svg.js" defer></script>
+    <script src="script-chart.js" defer></script>
 
     <title>Visualisering</title>
 </head>
@@ -23,6 +24,16 @@
     
 <h2></h2>
 
+    <div class="container">
+
+        <div id="chart"></div>
+
+        <p></p>
+
+        <div id="shapes"></div><input type="button" id="toggle-circle" value="Knapp">
+
+        
+    </div>
 
 </body>
 </html>
