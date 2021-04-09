@@ -11,11 +11,11 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
-    <script src="https://d3js.org/d3.v6.js" defer></script>
+    <script src="https://d3js.org/d3.v5.js" defer></script>
 
     <!-- "defer"-attributet betyder att skriptet ska vänta på att sidan laddats helt och hållet innan det körs. 
         Samma idé som att sätt scripten sist, det är smaksak hur man vill göra -->
-    <script src="script-svg.js" defer></script>
+    <script src="script-image.js" defer></script>
     <script src="script-chart.js" defer></script>
 
     <title>Visualisering</title>
@@ -26,11 +26,12 @@
 
     <div class="container">
 
-        <div id="chart"></div>
 
-        <p></p>
+        <img id="staticImg" src="data/cat_smaller.jpg" style="visibility: hidden;">
+        <canvas id="canvas"></canvas>
 
-        <div id="shapes"></div><input type="button" id="toggle-circle" value="Knapp">
+        <!-- <div id="chart"></div>    -->    
+        
 
         
     </div>
