@@ -1,52 +1,82 @@
 
-var chartData = [ 1, 5, 80, 100, 120, 105, 75, 60, 100 ];
-//var chartData = [0,1,4,6,19,31,54,77,88,159,303,342,468,619,689,719,710,732,788,802,818,865,961,1041,1010,1002,978,1043,987,954,1015,946,946,932,1000,948,927,907,959,893,978,942,1014,1016,960,983,959,989,987,949,883,884,884,872,916,882,880,831,825,860,777,787,751,723,672,634,605,622,601,620,592,608,580,598,630,648,617,641,641,697,689,726,679,721,695,737,757,763,716,754,729,743,720,733,685,684,733,749,688,716,747,736,676,709,659,703,624,675,657,629,589,626,610,582,608,628,614,536,584,536,536,511,525,487,441,491,456,439,0];
-var height = 300;
-var width = 400;
-var barWidth = width/chartData.length;
-var barMargin = 5;
-//var barMargin = -1; // för histogrammet
 
-var chart = d3.select('#chart')
-    .append('svg')
-        .attr('height', height)
-        .attr('width', width)
-        .style('background', 'LightSlateGray');
+// https://people.arcada.fi/~welandfr/demo/vai/eth-avg.json
 
+d3.json('data/eth-avg.json')
+    .then(function(d) {
 
-var y = d3.scaleLinear()
-    .domain([0, d3.max(chartData)]) // Variationen inom vår datamängd
-    .range([0, height-10])  // "Utrymmet", var domain 0 och max ska vara
+    createChart(d);
+});
+
+function createChart(rawData) {
+
+    var chartData = [];
+    var dates = [];
+    for (let i = 0; i < rawData.length; i++) {
+        chartData.push(rawData[i].avg);
+        dates.push(new Date(rawData[i].date));
+    }
+
+    console.log(dates);
+
+    var leftMargin = 40;
+    var bottomMargin = 20;
+    var height = 300;
+    var width = 500;
+
+    var chart = d3.select('#chart')
+        .append('svg')
+            .attr('height', height)
+            .attr('width', width)
+            .style('background', '#ddeeff')
+            .append('g')
+                .attr('transform', 'translate('+leftMargin+',0)')
+
+    /** Y-axeln */
+    var y = d3.scaleLinear()
+        .domain([d3.min(chartData)*0.95, d3.max(chartData)*1.05]) // Variationen inom vår datamängd
+        .range([0, height]);  // "Utrymmet", var domain 0 och max ska vara
+
+    var yGuideScale = d3.scaleLinear()
+        .domain([d3.min(chartData)*0.95, d3.max(chartData)*1.05]) 
+        .range([height, 0]); 
+
+    var yTicks = d3.axisLeft(yGuideScale)
+        .ticks(10);
+
+    /** X-axeln */ 
+    var x = d3.scaleBand()
+        .domain(chartData)
+        .range([0, width-leftMargin]);
+
+    var xGuideScale = d3.scaleTime()
+        .domain([dates[0], dates[dates.length-1]])
+        .range([0, width-leftMargin]);
+
+    var xTicks = d3.axisBottom(xGuideScale)
+        .ticks(d3.timeWeek)
+        //.ticks(d3.timeDay.every(3));
     
-chart.selectAll('rect')
-    .data(chartData).enter() // loopar igenom chartData
-        .append('rect')
-            .attr('x', function(d, i) {  // .attr('x', callback-funktion som retrurnerar vårt värde)
-                return i * barWidth;
-            }) 
-            .attr('y', function(d) {
-                return height-y(d); // y(d) returnerar y-värde enligt skalan
-            }) 
-            .attr('height', function(d) {
-                return y(d);
-            })
-            .attr('width', barWidth-barMargin)
-
-            // Simpel event-hantering i d3 
-            .on('mouseover', function(d) {
-                console.log(d3.event); // Funkar inte i v6
-                d3.select(this)
-                    .style('fill', 'rgba(255, 100, 0, 0.5)');
-            })
-            .on('mouseout', function() {
-                d3.select(this)
-                    .style('fill', 'OrangeRed')
-            })
-            .style('fill', 'OrangeRed');
-
-
+    chart.append("path")
+        .datum(chartData)
+            .attr('fill', 'none')
+            .attr('stroke', 'OrangeRed')
+            .attr('stroke-width', 3)
+            .attr('d', d3.line()
+                .x(function(d) {
+                    return x(d);
+                })
+                .y(function(d) {
+                    return height-y(d);
+                })
+            );
     
-
+    d3.select('#chart svg').append('g')
+            .attr('transform', 'translate('+leftMargin+',0)')
+            .call(yTicks);
     
-
+    d3.select('#chart svg').append('g')
+            .attr('transform', 'translate('+leftMargin+','+(height-bottomMargin)+')')
+            .call(xTicks);
+}
     
