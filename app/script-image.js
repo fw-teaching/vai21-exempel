@@ -23,7 +23,7 @@ function readImg(image) {
         var imgData = context.getImageData(0, 0, canvas.width, canvas.height);
 
         // dumpa ut imgData i konsolen
-        console.log(imgData);
+        console.log(imgData.data[0]);
     }
 
 }
