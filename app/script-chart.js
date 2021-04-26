@@ -48,18 +48,24 @@ svg.selectAll('slices')
         .attr('stroke', 'black')
         .style('stroke-width', "2px");
 
+/** Text-labels: 
+ * 
+*/
+// Vi behöver en skild arc-generator för att placera ut texterna på rätt ställen
 var textArcGenerator = d3.arc()
-        .innerRadius(radius+30)
+        .innerRadius(radius+30) // Vi använder diagrammets yttre radie (plus lite till) som innerRadius för att få texterna utanför cirkeldiagrammet
         .outerRadius(radius+60);
 
 svg.selectAll('slices')
-        .data(pieData)
-        .enter().append('text')
+        .data(pieData) // Samma data så får vi lika stora kakbitar
+        .enter().append('text') // svg-text-element
             .text(function(d) {
+                // Själva texten
                 return d.data.value.label + " " + d.data.value.share + "%";
             })
             .attr('transform', function(d) {
-                return "translate(" + textArcGenerator.centroid(d) + ")";
+                // Vi använder arc-generatorn för att placera varje text rätt
+                return "translate(" + textArcGenerator.centroid(d) + ")"; 
             })
             .style("text-anchor", "middle")
             .style("font-size", "13px");
