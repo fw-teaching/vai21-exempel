@@ -5,6 +5,7 @@ d3.json('data/graph2.json')
 
         const links = [];
 
+        // Loopa alla noder och deras linkar för att bygga upp en skild array för linkarna
         for (let i = 0; i < nodes.length; i++) {
             for (let j = 0; j < nodes[i].links.length; j++) {
                 links.push({
