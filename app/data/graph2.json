@@ -1,0 +1,69 @@
+[
+	{
+		"name": "Böle",
+		"id": "bole",
+		"links": [
+			"tolo",
+			"berg"
+		],
+		"volume": 90
+	},
+	{
+		"name": "Vallgård",
+		"id": "vall",
+		"links": [
+			"berg"
+		],
+		"volume": 30
+	},
+	{
+		"name": "Berghäll",
+		"id": "berg",
+		"links": [
+			"bole",
+			"vall",
+			"tolo",
+			"oodi"
+		],
+		"volume": 70
+	},
+	{
+		"name": "Tölö",
+		"id": "tolo",
+		"links": [
+			"bole",
+			"berg",
+			"oodi",
+			"bush"
+		],
+		"volume": 60
+	},
+	{
+		"name": "Centrumbiblioteket Ode",
+		"id": "oodi",
+		"links": [
+			"tolo",
+			"berg",
+			"rich"
+		],
+		"volume": 120
+	},
+	{
+		"name": "Richardsgatan",
+		"id": "rich",
+		"links": [
+			"oodi",
+			"bush"
+		],
+		"volume": 40
+	},
+	{
+		"name": "Busholmen",
+		"id": "bush",
+		"links": [
+			"tolo",
+			"rich"
+		],
+		"volume": 30
+	}
+]
